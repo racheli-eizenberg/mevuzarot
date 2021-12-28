@@ -1,0 +1,31 @@
+{
+  "name": "api-server-starter",
+  "version": "1.0.0",
+  "description": "A lightweight starter kit for building a Node-based API server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./server.js"
+  },
+  "keywords": [
+    "api",
+    "node",
+    "api-server",
+    "express",
+    "starter",
+    "kit"
+  ],
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "is-positive-integer": "^1.1.1",
+    "mongoose": "^6.1.4",
+    "mongoose-id-validator": "^0.6.0",
+    "validate-date": "^2.0.0"
+  },
+  "devDependencies": {
+    "validator": "^13.7.0"
+  }
+}
