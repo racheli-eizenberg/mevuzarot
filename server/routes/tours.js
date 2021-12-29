@@ -63,37 +63,38 @@ module.exports = {
    
    
     get_tours: function (req, res) {
-       
-        fs.readFile(dataPath, 'utf8', (err, data) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);
-            }
-            else
-                res.send(!data ? JSON.parse("{}") : JSON.parse(data));
-        });
+        Tour.find().then(tours => res.send(tours)
+        ).catch (e=> res.status(400).send("tour not found"))
+        // fs.readFile(dataPath, 'utf8', (err, data) => {
+        //     if (err) {
+        //         console.log(err);
+        //         res.sendStatus(500);
+        //     }
+        //     else
+        //         res.send(!data ? JSON.parse("{}") : JSON.parse(data));
+        // });
     },
     get_sites: function (req, res) {       
         Site.find().then(sites => res.send(sites)
         ).catch (e=> res.status(400).send("sites not found"))
     },
     get_tour: function (req, res) {
-
-        fs.readFile(dataPath, 'utf8', (err, data) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);
-            }
-            else {
-                var tourId = req.params["id"];
-                var dataObject = JSON.parse(data)
-                if (!dataObject[tourId])res.status(400).send("no such tour");
-                else{
-                    res.send(!data ? JSON.parse("{}") : dataObject[tourId]);
-                }
+        
+        // fs.readFile(dataPath, 'utf8', (err, data) => {
+        //     if (err) {
+        //         console.log(err);
+        //         res.sendStatus(500);
+        //     }
+        //     else {
+        //         var tourId = req.params["id"];
+        //         var dataObject = JSON.parse(data)
+        //         if (!dataObject[tourId])res.status(400).send("no such tour");
+        //         else{
+        //             res.send(!data ? JSON.parse("{}") : dataObject[tourId]);
+        //         }
                     
-            }
-        });
+        //     }
+        // });
     },
 
 
@@ -279,22 +280,30 @@ module.exports = {
     
 // DELETE
     delete_tour: function (req, res) {
+        Tour.remove({'id':req.params.body}).then(tour=>
+            {
+            console.log(Tour.find)
+                res.status(201).send("tour "+tour+"removed")
+            }
+            
 
-        readFile(data => {
+        ).catch(e=>res.status(400).send(e))
+        
+        // readFile(data => {
 
-            // add the new tour
-            const tourId = req.params["id"];
-            if(data[tourId]===null)
-                {res.status(400).send("not found");return;}
+        //     // add the new tour
+        //     const tourId = req.params["id"];
+        //     if(data[tourId]===null)
+        //         {res.status(400).send("not found");return;}
                 
-            else
-                delete data[tourId];
+        //     else
+        //         delete data[tourId];
 
-            writeFile(JSON.stringify(data, null, 2), () => {
-                res.status(200).send(`tour :${tourId} removed`);
-            });
-        },
-            true);
+        //     writeFile(JSON.stringify(data, null, 2), () => {
+        //         res.status(200).send(`tour :${tourId} removed`);
+        //     });
+        // },
+        //     true);
     },
     deleteCopunFromTour: function(req,res) 
     {

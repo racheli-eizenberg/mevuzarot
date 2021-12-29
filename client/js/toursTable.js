@@ -130,11 +130,12 @@ const deleteRendererComponent = (params) => {
         type: "DELETE",
         url: 'http://localhost:3001/tours/' + params.data.id,
         success: function (data) {
-  
+          alert(data)
           window.location.reload();
   
         },
         error: function (errorThrown) {
+          
           alert("failed to delete tour ");
   
         }
@@ -158,7 +159,7 @@ const deleteRendererComponent = (params) => {
   }
 const addSiteRendererComponent = (params) => {
   var site_list=[];
-  var eSelect = document.getElementById("selectSite");  
+  var eSelect = document.createElement('select');  
    $.ajax({
         async: true,
         type: "GET",
