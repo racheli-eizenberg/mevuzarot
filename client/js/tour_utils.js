@@ -160,75 +160,66 @@ $(document).ready(function () {
     event.preventDefault();
   });
 
-  // $("form[name='add_site_form']").validate({
+  $("form[name='add_site_form']").validate({
    
-  //   // Specify validation rules
-  //   rules: {
+    // Specify validation rules
+    rules: {
       
-  //     "siteName": {
-  //       required: true,
-  //       lettersonly: true,
-  //     },
-  //     "countryName": {
-  //       required: true,
-  //       lettersonly: true,
-  //       //isInteger: true,
-  //     },
-  //     "index": {
-  //      required: true,
-  //       digits: true,
-  //     },
-  //   },
-  //   // Specify validation error messages
-  //   messages: {
-  //     siteName: {
-  //       required:"field required",
-  //       lettersonly:"Letters only and one word please"
-  //     },
-  //     countryName: {
-  //       required:"field required",
-  //       lettersonly:"Letters only and one word please"
-  //     },
-  //     index: {
-  //       required:"field required"
-  //     },
-  //   }
+      "siteName": {
+        required: true,
+        lettersonly: true,
+       
+      },
+      "countryName": {
+        required: true,
+        lettersonly: true,      
+      },    
+    },
+    // Specify validation error messages
+    messages: {
+      siteName: {
+        required:"field required",
+        lettersonly:"Letters only and one word please"
+      },
+      countryName: {
+        required:"field required",
+        lettersonly:"Letters only and one word please"
+      },
     
-  // });
+    }
+    
+  });
  
-  // // process the form
-  // $('#add_site_form').submit(function (event) {
+  // process the form
+  $('#add_site_form').submit(function (event) {
    
-  //   if (!$("#add_site_form").valid())
-  //      return;
+    if (!$("#add_site_form").valid())
+       return;
 
   
-  //   // process the form
-  //   $.ajax({
-  //     async: true,
-  //     type: 'PUT',
-  //     url: 'tours/addSite'+'/'+localStorage.getItem('tourId'),
-  //     contentType: 'application/json',
-  //     data: JSON.stringify({
-  //       "siteDetails":{
-  //         "siteName": $("#siteName").val(),
-  //         "countryName": $("#countryName").val()
-  //       },
-  //       "index": $("#index").val(),
-  //     }),
-  //     processData: false,
-  //     encode: true,
-  //     success: function (data, textStatus, jQxhr) {
-  //         window.location.reload();
-  //     },
-  //     error: function (jqXhr, textStatus, errorThrown) {
-  //       console.log(errorThrown);
-  //     }
-  //   });
+    // process the form
+    $.ajax({
+      async: true,
+      type: 'POST',
+      url: 'sites',
+      contentType: 'application/json',
+      data: JSON.stringify({
+          "siteName": $("#siteName").val(),
+          "countryName": $("#countryName").val()
+      }),
+      processData: false,
+      encode: true,
+      success: function (data, textStatus, jQxhr) {
+        location.href = "/toursList";
+      },
+      error: function (jqXhr, textStatus, errorThrown) {
+        console.log(errorThrown);
+      }
+    });
 
-  //   // stop the form from submitting the normal way and refreshing the page
-  //   event.preventDefault();
-  // });
+    // stop the form from submitting the normal way and refreshing the page
+    event.preventDefault();
+  });
 
   $("form[name='add_coupon_form']").validate({
    
@@ -316,5 +307,32 @@ $(document).ready(function () {
     event.preventDefault();
   });
 });
+
+$('#createdirForm').validate({
+  'createdir':{
+    rules:{
+      required:true,
+      digits: true,
+  }
+  ,
+  // Specify validation error messages
+  messages: {
+    'createdir':{
+      required:'index requires',
+      digits: 'index must be positive intiger',
+     }
+  }
+  }
+})
+$('#createdirForm').submit( function(e) {
+  console.log("index")
+  
+  
+});
+
+      
+
+
+
 
 

@@ -1,0 +1,36 @@
+<!-- index.html -->
+<!doctype html>
+<html>
+<head>
+    <title>add site</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <!-- load bootstrap via CDN -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+    "></script> <!-- load jquery via CDN -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+   <script src="../js/tour_utils.js">
+    </script> <!-- load our javascript file -->
+</head>
+
+<body>
+    <div class="col-sm-6 col-sm-offset-3">
+  
+        <h1>Create Site</h1>
+        <form id='add_site_form' name='add_site_form' method='PUT'>
+        <div id='name-group' class='form-group'>
+        <label for='siteName'>Site Name</label>
+        <input type='text'class='form-control' name='siteName' id='siteName'placeholder='enter the site name here' required>
+        </div>
+        <div id='name-group' class='form-group'>
+        <label for='countryName'>Country Name</label>
+        <input type='text' class='form-control 'name='countryName' id='countryName'placeholder='write Country Name here'required>
+        </div>        
+        <button id='addSiteBtn'type='submit ' class=' btn btn-success'>Add <span class='fa fa-arrow-right'></span></button>
+        </form> 
+    
+    </div>
+</body>
+
+</html>

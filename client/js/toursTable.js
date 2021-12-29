@@ -1,6 +1,6 @@
 
 var global_id=[];
-var site_list=[];
+
 $(document).ready(function () {
 function update_tour(id){
 
@@ -143,7 +143,7 @@ const deleteRendererComponent = (params) => {
     return btn;
   
   }
-const updateRendererComponent = (params) => {
+  const updateRendererComponent = (params) => {
     var btn = document.createElement("button");
     btn.id="btnUpdate"
     btn.innerHTML = "update Tour";
@@ -157,32 +157,62 @@ const updateRendererComponent = (params) => {
   
   }
 const addSiteRendererComponent = (params) => {
-    var dropdown= document.createElement('div');
-    dropdown.innerHTML = `
-    <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      select site <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li><a href='#'>Edit</a></li>
-      <li><a href='#'">Delete</a></li>
-      <li role="separator" class="divider"></li>
-      <li><a href='#'>Print</a></li>
-    </ul>
-    </div>
-      `;
-      return dropdown
-
-  // var btn = document.createElement("button");
-    // btn.id="btnAddSite"
-    // btn.innerHTML = "addSite to Tour";
-    // btn.onclick = function (e) {
-    //   add_site(params.data.id)
-    //   }
+  var site_list=[];
+  var eSelect = document.getElementById("selectSite");  
+   $.ajax({
+        async: true,
+        type: "GET",
+        url: 'http://localhost:3001/sites',
+        success: function (data) {    
+          site_list=data;
+         
+     
+   
+    eSelect.setAttribute('class', 'custom-select form-control');  
+    eSelect.setAttribute('style', 'padding:0px');  
+    eSelect.setAttribute('name', "add-site-to-tour");  
     
-  
-    // return btn;
-  
+   
+      
+    var eOption = document.createElement("option");  
+    eOption.text = "Select Site";  
+    eOption.value = "";  
+    
+    eSelect.appendChild(eOption); 
+    
+    console.log(site_list)
+    
+      site_list.map((site)=>{
+        console.log(site.siteName)
+        var eOptionVal = document.createElement("option");  
+        eOptionVal.text = site.siteName;  
+        eOptionVal.value =site._id;
+        // eOptionVal.addEventListener('change', function() {
+        //   console.log('You selected: ', this.value);
+        // });
+          eSelect.appendChild(eOptionVal);  
+      })
+        },
+        error: function (errorThrown) {
+          alert("failed to load sites ");
+    
+        }
+      })
+      
+      eSelect.onchange=function(e) {
+            let index = prompt("Please enter the index of the site", "");
+            $('#createdir').val(index);
+            // var eOptionIndex = document.createElement("option");  
+            // eOptionIndex.setAttribute('style','display:none')
+            // eOptionIndex.setAttribute('id','index')
+            // eOptionIndex.value =index;
+            // eSelect.appendChild(eOptionIndex); 
+            
+            // //eSelect.appendChild(index);
+             console.log("select",eSelect.value);
+            // console.log("option",eOptionIndex.value);
+      }; 
+      return eSelect;
   }
 const addCouponRendererComponent = (params) => {
   
@@ -227,53 +257,7 @@ const numberSort = (num1, num2) => {
   return num1 - num2;
 };
 
-self.selectCellEditor = function () {
 
- };
-self.selectCellEditor.prototype = {
-    init: function (params) {
-      //ajax  
-      $.ajax({
-        async: true,
-        type: "GET",
-        url: 'http://localhost:3001/sites',
-        success: function (data) {    
-          site_list=data;
-          console.log(site_list);
-        },
-        error: function (errorThrown) {
-          alert("failed to load sites ");
-    
-        }
-      })
-        this.inputSelect = document.createElement('div');
-        this.inputSelect.className = "dropdown";
-        this.inputSelect.innerHTML = '<div class="dropdown">' +
-      '<button class="dropdown-toggle" type="button" data-toggle="dropdown">Select Site' +
-      '<span class="caret"></span></button>' +
-  '<ul class="dropdown-menu">' +
-   ' <li><a href="#">2012</a></li>' +
-    '<li><a href="#">2013</a></li>' +
-    '<li><a href="#">2014</a></li>' +
-  '</ul>' +
-'</div>' ;
-    },
-    getValue: function () {
-        return this.inputSelect;
-    },
-    getGui: function () {
-        return this.inputSelect;
-    },
-    afterGuiAttached: function () {
-        
-    },
-    destroy: function () {
-        $(this.inputSelect).remove();
-    },
-    isPopup(){
-      return true;
-    }
-}
 
 var columnDefs = [
     { field: 'id', sort:'asc',sortable: true ,unSortIcon: true,comparator:numberSort,width: 125},
@@ -295,7 +279,7 @@ var columnDefs = [
     },
     {
       field: "Add Site",width: 180,
-      editable: true, cellEditorParams: { }, cellEditor: selectCellEditor},
+      cellRendererParams: { }, cellRenderer: addSiteRendererComponent},
     {
       field: "Add Coupon",width: 190,
       cellRenderer: addCouponRendererComponent,
@@ -383,8 +367,14 @@ var columnDefs = [
             createTourBtn2.onclick=function (params) {
               window.location.href="/create_tour"
             }
-          
-            
+            var createTourBtn1= document.querySelector("#addSiteBtn1");
+            var createTourBtn2= document.querySelector("#addSiteBtn2");
+            addSiteBtn1.onclick=function (params) {
+              window.location.href="/add_site"
+            }
+            addSiteBtn2.onclick=function (params) {
+              window.location.href="/add_site"
+            }
             var gridDiv = document.querySelector('#myGrid');
             new agGrid.Grid(gridDiv, gridOptions);
           
@@ -411,6 +401,7 @@ var columnDefs = [
           
               },
               error: function (errorThrown) {
+                
                 alert("failed to load tours ");
           
               }

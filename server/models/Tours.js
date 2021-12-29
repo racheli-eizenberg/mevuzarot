@@ -1,52 +1,55 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
+const express = require('express')
+ const validator = require('validator')
 
+ 
   
-  
-var TourSchema = new mongoose.Schema({
+var tourSchema = new mongoose.Schema({
+    
+    
     id: {
+        type:String,
         required: true,
         digits: true,
-        idExist: true,
-        trim: true,
-        validate(value) {
-            if (!localStorage.getItem('tourIdArr').indexOf(value) == -1) {
-                throw new Error('tour id already exists')
-            }
-        }
-    },
-    date: {
-        required: true,
-        validate(value) {
-            if (!validator.isEmail(value)) {
-                throw new Error('Email is invalid')
-            }
-        }
-    },
-    duration: {
-        required: true,
-        type: Number,
-        default: 0,
-    },
-    cost: {
-        required: true,
-        type: Number,
-        default: 0,
+        // idExist: true,
+        // validate(value) {
+        //     if (Tour.find(value)) {
+        //         throw new Error('country name must be full')
+        //     }
+        // }
        
     },
-    siteId: {
-        type: String,
+    date: {
+        type:String,
         required: true,
-        trim: true
-    },
-    coupons: {
-        type: String,
+        
+      },
+    duration: {
+        type:Number,
         required: true,
-        trim: true
-    }
+        digits: true,
+      },
+      cost: {
+        type:Number,
+        required: true,
+        digits: true,
+      },
+      coupons: {
+        type:Object,
+       
+        digits: true,
+      },
+      sites: {
+        type:Object,
+      
+        digits: true,
+      },
+        
+    
+
 }, { timestamps: true }
 );
 
-const Tour = mongoose.model('Tour', TourSchema);
+const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour

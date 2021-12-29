@@ -14,6 +14,7 @@ const app=express();
 const port = process.env.PORT || 3001
 
 app.use('/create_tour', express.static(path.join(__dirname, 'client/html/create_tour_form.html')));
+app.use('/add_site', express.static(path.join(__dirname, 'client/html/add_site_form.html')));
 app.use('/toursList', express.static(path.join(__dirname, 'client/html/toursTable.html')));
 app.use('/updateTour', express.static(path.join(__dirname, 'client/html/update_tour_form.html')));
 app.use('/viewSites', express.static(path.join(__dirname, 'client/html/viewSites.html')));

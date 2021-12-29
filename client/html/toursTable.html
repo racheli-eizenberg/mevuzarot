@@ -20,24 +20,27 @@
         
         
         <script src="../js/toursTable.js"></script>
-        <script src="../js/tour_utils.js"></script>
+        <!-- <script src="../js/tour_utils.js"></script> -->
         
 
  
 		
 	</head>
 	<body>
-        
-            <button id="createTourBtn1">Create Tour</button>
-                <div id="myGrid"} 
+            <select id="selectSite"></select>
+            <form style="display: none;" id="createdirForm"><input type="text" name="" id="createdir"/></form>
+            <button id="createTourBtn1" class="addBtn">Create Tour</button>
+            <button id="addSiteBtn1" class="addBtn">Add Site</button>
+                <div id="myGrid" 
                  style="height: 100%;" class="ag-theme-alpine"></div>
-            <button id="createTourBtn2">Create Tour</button>
+            <button id="createTourBtn2" class="addBtn">Create Tour</button>
+            <button id="addSiteBtn2" class="addBtn">Create Site</button>
             <div class="modal"> 
                 <div class="modal-content">   
                 <span class="close-btn">&times;</span> 
                 </div>
             </div>
-       
+        <script src="../js/tour_utils.js"></script>
 		<script>var __basePath = './';</script>
 		<script src="https://unpkg.com/@ag-grid-community/all-modules@26.2.0/dist/ag-grid-community.min.js">
 		</script>

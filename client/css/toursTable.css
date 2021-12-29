@@ -74,15 +74,15 @@ body {
    
 
   }
-  #createTourBtn1{
+  /* #createTourBtn1{
     background-color: #aaeb96;
     width: 150px;
     height: 50px;
     color: white;
     font-family: "Georgia", Times, serif;
 
-  }
-  #createTourBtn2{
+  } */
+  .addBtn{
     background-color: #aaeb96;
     width: 150px;
     height: 50px;

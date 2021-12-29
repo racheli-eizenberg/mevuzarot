@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Site = require('../models/Sites.js')
+const Tour = require('../models/Tours.js')
 var validateDate = require("validate-date");
 var isPositiveInteger = require('is-positive-integer')
 // variables
@@ -62,6 +63,7 @@ module.exports = {
    
    
     get_tours: function (req, res) {
+       
         fs.readFile(dataPath, 'utf8', (err, data) => {
             if (err) {
                 console.log(err);
@@ -97,27 +99,31 @@ module.exports = {
 
     // CREATE
     create_tour: function (req, res) {
+        const tour = new Tour(req.body);
+        tour.save().then(tour=>
+            res.status(201).send(tour+"tour created")
 
-        readFile(data => {
+        ).catch(e=>res.status(400).send(e))
+        // readFile(data => {
            
-            if(data[req.body.id])//if id exists
-            {
-               res.status(400).send("id already exists");
-               return;
-            }   
-             // create a tour
-             if(req.body.id===null||req.body.date===null||req.body.cost===null||req.body.duration===null) 
-             {res.status(400).send("all fields are required");return;} 
-            if(!validate(res,req))
-                return;
-            data[req.body.id] = req.body;
+        //     if(data[req.body.id])//if id exists
+        //     {
+        //        res.status(400).send("id already exists");
+        //        return;
+        //     }   
+        //      // create a tour
+        //      if(req.body.id===null||req.body.date===null||req.body.cost===null||req.body.duration===null) 
+        //      {res.status(400).send("all fields are required");return;} 
+        //     if(!validate(res,req))
+        //         return;
+        //     data[req.body.id] = req.body;
 
-            writeFile(JSON.stringify(data, null, 2), () => {
-                res.status(200).send('tour created');
-                return;
-            });
-        },
-            true);
+        //     writeFile(JSON.stringify(data, null, 2), () => {
+        //         res.status(200).send('tour created');
+        //         return;
+        //     });
+        // },
+        //     true);
     },
 
     // UPDATE
@@ -187,7 +193,13 @@ module.exports = {
            );
         },
             true);
-    },   
+    }, 
+    addSiteToDb:function(req,res){
+        const site = new Site(req.body);
+        site.save().then(site=>
+            res.status(201).send(site)
+        ).catch(e=>res.status(400).send(e))
+    },
     AddCuponToTour: function(req,res) 
     {
        
@@ -264,7 +276,8 @@ module.exports = {
             true);
     
 },
-    // DELETE
+    
+// DELETE
     delete_tour: function (req, res) {
 
         readFile(data => {
