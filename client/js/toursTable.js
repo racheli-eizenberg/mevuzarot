@@ -2,30 +2,32 @@
 var global_id=[];
 
 $(document).ready(function () {
-function update_tour(id){
+function update_tour(params){
 
      let str='';
-      
+      console.log("params",params)
+      console.log("paramsdata",params.data)
+
         str += "<h3>Update Tour</h3>";
         str += "<form id='update_tour_form' name='update_tour_form' method='PUT'>";
         str += "<div id='name-group' class='form-group'>";
         str += "<label for='start_date'>Start Date</label>";
-        str += "<input type='date'  onkeypress='return false' class='form-control' name='start_date' id='start_date'placeholder='"+"enter the date the tour begins"+"'>";
+        str += "<input type='date'  value='"+params.data.date+"' onkeypress='return false' class='form-control' name='start_date' id='start_date'placeholder='"+"enter the date the tour begins"+"'>";
         str+="</div>"
         str+="<div id='name-group' class='form-group'>"
         str+="<label for='duration'>Trip Duration</label>"
-        str+="<input type='number' class='form-control 'name='duration' id='duration'placeholder='"+"write duration in days here"+"'>";
+        str+="<input type='number' value='"+params.data.duration+"' class='form-control 'name='duration' id='duration'placeholder='"+"write duration in days here"+"'>";
         str+="</div>"
         str+="<div id='name-group' class='form-group'>"
         str+="<label for='cost'>cost ILS</label>"
-        str+="<input type='number' class='form-control' name='cost' id='cost'placeholder='write cost here'class='input-only-numbers demostration '>"
+        str+="<input type='number'  value='"+params.data.cost+"' class='form-control' name='cost' id='cost'placeholder='write cost here'class='input-only-numbers demostration '>"
         str+="</div>"
         str+="<button id='updateBtn'type='submit ' class=' btn btn-success'>Update <span class='fa fa-arrow-right'></span></button>"
         str+="</form> ";
         str+=" <script src='../js/tour_utils.js'></script>";
         
         //myStorage = window.localStorage;
-        localStorage.setItem('tourId', id);
+        localStorage.setItem('tourId',params.data.id);
       $(".modal").children(".modal-content").html(str);
       $(".modal").show()
 
@@ -151,7 +153,7 @@ const deleteRendererComponent = (params) => {
   
     btn.onclick = function (e) {
 
-      update_tour(params.data.id)
+      update_tour(params)
      
     }
       return btn;
@@ -164,27 +166,26 @@ const addSiteRendererComponent = (params) => {
         async: true,
         type: "GET",
         url: 'http://localhost:3001/sites',
-        success: function (data) {    
+        success: function (data) {   
+         
           site_list=data;
          
      
    
-    eSelect.setAttribute('class', 'custom-select form-control');  
-    eSelect.setAttribute('style', 'padding:0px');  
-    eSelect.setAttribute('name', "add-site-to-tour");  
+        eSelect.setAttribute('class', 'custom-select form-control');  
+        eSelect.setAttribute('style', 'padding:0px');  
+        eSelect.setAttribute('name', "add-site-to-tour");  
     
    
       
-    var eOption = document.createElement("option");  
-    eOption.text = "Select Site";  
-    eOption.value = "";  
+        var eOption = document.createElement("option");  
+        eOption.text = "Select Site";  
+        eOption.value = "";  
     
-    eSelect.appendChild(eOption); 
-    
-    console.log(site_list)
+      eSelect.appendChild(eOption); 
+
     
       site_list.map((site)=>{
-        console.log(site.siteName)
         var eOptionVal = document.createElement("option");  
         eOptionVal.text = site.siteName;  
         eOptionVal.value =site._id;
@@ -201,17 +202,41 @@ const addSiteRendererComponent = (params) => {
       })
       
       eSelect.onchange=function(e) {
+         
             let index = prompt("Please enter the index of the site", "");
-            $('#createdir').val(index);
-            // var eOptionIndex = document.createElement("option");  
-            // eOptionIndex.setAttribute('style','display:none')
-            // eOptionIndex.setAttribute('id','index')
-            // eOptionIndex.value =index;
-            // eSelect.appendChild(eOptionIndex); 
+          
+           
+            $.ajax({
+              async: true,
+              type: 'PUT',
+              url: '/tours/addSite/'+params.data.id,
+              contentType: 'application/json',
+              data: JSON.stringify({
+                  "site_id":eSelect.value ,
+                  "index": index
+              }),
+              processData: false,
+              encode: true,
+              success: function (data, textStatus, jQxhr) {
+                console.log(data)
+              //  location.href = "/toursList";
+              },
+              error: function (jqXhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+              }
+            });
+          //  $("#siteIndex").val(index)
+           
+          // console.log("siteIIndex",$("#siteIndex"))
+          //   var eOptionIndex = document.createElement("option");  
+          //   eOptionIndex.setAttribute('style','display:none')
+          //   eOptionIndex.setAttribute('id','index')
+          //   eOptionIndex.value =index;
+          //   eSelect.appendChild(eOptionIndex); 
             
-            // //eSelect.appendChild(index);
-             console.log("select",eSelect.value);
-            // console.log("option",eOptionIndex.value);
+          //   //eSelect.appendChild(index);
+          //    console.log("select",eSelect.value);
+          //   console.log("option",eOptionIndex.value);
       }; 
       return eSelect;
   }

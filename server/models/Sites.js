@@ -6,7 +6,11 @@ const express = require('express')
   
 var siteSchema = new mongoose.Schema({
     
-    
+    index:{
+        type:Number,
+        required: true,
+
+    },
     countryName: {
         type:String,
         required: true,

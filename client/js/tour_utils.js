@@ -104,22 +104,30 @@ $(document).ready(function () {
     rules: {
       
       "date": {
-      
+        required:true
       },
       "duration": {      
         digits: true,
+        required:true
       },
       "cost": {
         digits: true,
+        required:true
       },
     },
     // Specify validation error messages
-    messages: {    
+    messages: {  
+      "date": {
+        required:"date required"
+      }, 
       duration: {
+        
         digits: "you must enter only positive integer ",
+        required:"duration required",
       },
       cost: {
         digits: "you must enter only positive integer",
+        required:"cost required",
       },
     }
     
@@ -308,27 +316,20 @@ $(document).ready(function () {
   });
 });
 
-$('#createdirForm').validate({
-  'createdir':{
-    rules:{
-      required:true,
-      digits: true,
-  }
-  ,
-  // Specify validation error messages
-  messages: {
-    'createdir':{
-      required:'index requires',
-      digits: 'index must be positive intiger',
-     }
-  }
-  }
-})
-$('#createdirForm').submit( function(e) {
-  console.log("index")
-  
-  
+// $('#siteIndex').validate({
+//   // Specify validation error messages
+//   // messages: {
+//   //   'index':{
+//   //     required:'index requires',
+//   //     digits: 'index must be positive intiger',
+//   //    }
+//   // }
+//   // }
+// })
+$('input[type=text].siteIndex').on("input", function(e) {
+  alert("Change to " + e);
 });
+
 
       
 

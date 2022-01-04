@@ -13,8 +13,8 @@ $(document).ready(() => {
             type: "DELETE",
             url: 'http://localhost:3001/tours/deleteCoupun/' + localStorage.getItem("tourId")+'/'+params.data.codeCoupon,
             success: function (data) {
-      
-              window.location.reload();
+                alert("coupon removed successfully")
+                window.location.reload();
       
             },
             error: function (errorThrown) {
@@ -32,9 +32,15 @@ $(document).ready(() => {
             type: "GET",
             url: 'http://localhost:3001/tours/' + tourId,
             success: function (data) {
-            
-    
-            if(data["coupon"]){
+          
+                if(data[0].coupons.length==0)
+                {
+                    alert("there is no coupon for tour "+localStorage.getItem("tourId"))
+                    window.location.href="/toursList"
+                }
+                var coupons=data[0].coupons;
+               
+         
                 var columnDefs = [
                     { field: 'codeCoupon' },
                     { field: 'startDate' },
@@ -55,20 +61,10 @@ $(document).ready(() => {
                     },
                 };
                 var gridDiv = document.querySelector('#myGrid');
-                new agGrid.Grid(gridDiv, gridOptions);
-                var newData = [];
-                
-               
-                    Object.entries(data.coupon).map((coupon) => {
-                        newData.push(coupon[1])
-                    })
-                    
-                    gridOptions.api.setRowData(newData);
-            } 
-            else{
-                alert("there is no coupon for tour "+localStorage.getItem("tourId"))
-                window.location.href="/toursList"
-            }
+                new agGrid.Grid(gridDiv, gridOptions);     
+                    gridOptions.api.setRowData(coupons);
+          
+          
                 },
                 error: function (errorThrown) {
                     alert("failed to delete tour ");
